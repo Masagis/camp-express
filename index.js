@@ -59,7 +59,10 @@ const app = express()
 const port = process.env.PORT || 3001
 
 const { Books } = require('./models')
-const {Film } = require('./models')
+const { Film } = require('./models')
+
+const db = require('./models')
+const { QueryTypes } = require('sequelize')
 
 app.use(morgan('combined'))
 
@@ -71,18 +74,75 @@ app.get('/', (req, res) => {
 })
 
 // Contoh endpoint untuk mendapatkan semua data
-app.get('/api/v1/books', async (req, res) => {
+app.get('/api/v1/books', async (request, response) => {
   try {
     const books = await Books.findAll()
-    res.json({status: 'OK', data: books,})
+    response.json({ status: 'OK', data: books })
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    response.status(500).json({ error: error.message })
   }
+
+  // const books = await db.sequelize.query('SELECT * FROM books', { type: QueryTypes.SELECT });
+  // return response.json({status: 'OK', data: books})
+
+  // const { query } = request;
+  // const books = await db.sequelize.query(`SELECT * FROM books WHERE name LIKE '%${query.name}%'`, { type: QueryTypes.SELECT });
+  // return response.json({status: 'OK', data: books})
+
+  // const { query } = request;
+
+  // const page = parseInt(query.page) || 1;
+  // const limit = parseInt(query.limit) || 10;
+
+  // const queryParams = {
+  //   offset: (page - 1) * limit,
+  //   limit: limit
+  // };
+
+  // const books = await Books.findAll(queryParams)
+
+  // const countBooks = await Books.count()
+  // const totalPage = Math.ceil(countBooks / limit) || parseInt(page);
+
+  // return response.json({
+  //   status: 200,
+  //   message: "get data succesfully",
+  //   data: books,
+  //   meta: {
+  //     page: parseInt(page),
+  //     totalPage: totalPage !== Infinity ? totalPage : parseInt(page),
+  //     totalData: countBooks,
+  //     totalDataOnPage: books.length,
+  //   }
+  // })
 })
+
+app.get('/api/v1/books/:id', async (request, response) => {
+  // const books = await db.sequelize.query('SELECT * FROM books WHERE id = :id', {
+  //   replacements: { id: request.params.id }, type: QueryTypes.SELECT });
+  //   if (books.length === 0) {
+  //     return response.status(404).json({message: 'Data not found'})
+  //   }
+  // return response.json({status:"OK", data: books})
+
+  // if(request.query.id) {
+  //      books = Books.findByPk(request.params.id, {where: {
+  // 			id: request.query.id,
+  // 		},})
+  //   } else {
+  //      books = await Books.findAll()
+  //   }
+
+  const booksId = await Books.findByPk(request.params.id)
+  if (!booksId) return response.status(404).json({ message: 'Data not found' })
+
+  return response.json({ status: 'OK', data: booksId })
+})
+
 app.get('/api/v1/film', async (req, res) => {
   try {
     const film = await Film.findAll()
-    res.json({status: 'OK', data: film,})
+    res.json({ status: 'OK', data: film })
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
