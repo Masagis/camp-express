@@ -44,13 +44,45 @@ exports.createBooks = async (req, res, next) => {
     const data = await bookService.createBooks(
       req.body.name,
       req.body.sinopsis,
-      req.body.year,
     )
 
     return res.status(201).json({
       success: true,
       message: 'Create data success',
       data,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+exports.updateBooksById = async (req, res, next) => {
+  try {
+    bookValidations.validateUpdatePayload(req.body)
+    const bookService = new BookService()
+    await bookService.updateBooksById(
+      req.params.id,
+      req.body.name,
+      req.body.sinopsis,
+    )
+
+    return res.status(200).json({
+      success: true,
+      message: 'Update data successfully',
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+exports.deleteBooksById = async (req, res, next) => {
+  try {
+    const bookService = new BookService()
+    await bookService.deleteBooksById(req.params.id)
+
+    return res.status(200).json({
+      success: true,
+      message: 'Delete data successfully',
     })
   } catch (error) {
     next(error)

@@ -1,3 +1,4 @@
+const { where } = require('sequelize')
 const { Books } = require('../models')
 
 // const db = require('../models')
@@ -41,20 +42,45 @@ class BookService {
 
   async getBooksById(id) {
     const booksId = await Books.findByPk(id)
-    console.log(booksId, "booksId")
-    if (!booksId) return response.status(404).json({ message: 'Data not found' })
+
+    if (!booksId)
+      return response.status(404).json({ message: 'Data not found' })
 
     return { data: booksId }
   }
 
-  async createBooks(name, sinopsis, year) {
-    const books = await Books.create({
-        name,
-        sinopsis,
-        year
-    })
-
+  async createBooks(name, sinopsis) {
+    const books = await Books.create({ name, sinopsis })
     return books
+  }
+
+  async updateBooksById(id, name, sinopsis) {
+    const booksId = await Books.findByPk(id)
+
+    if (!booksId)
+      return response.status(404).json({ message: 'Data not found' })
+
+    return await Books.update(
+      { name, sinopsis },
+      {
+        where: {
+          id,
+        },
+      },
+    )
+  }
+
+  async deleteBooksById(id) {
+    const booksId = await Books.findByPk(id)
+
+    if (!booksId)
+      return response.status(404).json({ message: 'Data not found' })
+
+    return await Books.destroy({
+      where: {
+        id,
+      },
+    })
   }
 }
 
