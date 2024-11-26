@@ -46,6 +46,16 @@ class BookService {
 
     return { data: booksId }
   }
+
+  async createBooks(name, sinopsis, year) {
+    const books = await Books.create({
+        name,
+        sinopsis,
+        year
+    })
+
+    return books
+  }
 }
 
 module.exports = BookService
