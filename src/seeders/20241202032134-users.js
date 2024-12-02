@@ -12,9 +12,6 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    return queryInterface.sequelize.query(
-      `insert into Films(title,desc,year) values ("Mia Khalifa","Mia", "2024");`
-    );
   },
 
   async down (queryInterface, Sequelize) {
