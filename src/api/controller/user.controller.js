@@ -4,7 +4,7 @@ exports.getUsers = async (req, res, next) => {
   try {
     const kontol = new UserServices()
     const { page = 1, limit = 10 } = req.query
-    const { data, meta } = await kontol.getApa({
+    const { data, meta } = await kontol.getUsers({
       page: parseInt(page),
       limit: parseInt(limit),
     })
