@@ -17,7 +17,7 @@ class UsersService {
         page: parseInt(page),
         totalPage: totalPage !== Infinity ? totalPage : parseInt(page),
         totalData: countUsers,
-        totalDataOnPage: Users.length,
+        totalDataOnPage: users.length,
       },
     }
   }
