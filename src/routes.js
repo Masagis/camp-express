@@ -7,8 +7,8 @@ const authRoute = require('./api/routes/auth.route');
 /**
  * api routes
  */
-router.use('/api/v1/books', booksRoute);
-router.use('/api/v1/users', usersRoute);
-router.use('/api/v1/auth', authRoute);
+router.use('/api/v1', booksRoute);
+router.use('/api/v1', usersRoute);
+router.use('/api/v1', authRoute);
 
 module.exports = router;
