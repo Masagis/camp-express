@@ -60,6 +60,12 @@ app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpecification))
 /**
  * server
  */
+app.get('/', (req, res) => {
+  res.send({
+    message: 'Hello 👋',
+    status: 'Server ready 🚀',
+  })
+})
 app.listen(port, () => {
-  console.log(`Server ready listening on https://localhost:${port}`)
+  console.log(`Server ready listening on http://localhost:${port}`)
 })
