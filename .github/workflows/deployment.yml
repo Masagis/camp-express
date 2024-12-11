@@ -22,14 +22,9 @@ jobs:
         run: npm install --frozen-lockfile
 
       # - name: sequelize migration
-      #   run: npx sequelize migrate deploy
+      #   run: npx sequelize-cli db:migrate
       # - name: sequelize seeding
-      #   run: yarn sequelize:seed
-      # - name: Generate sequelize client
-      #   run: npx sequelize generate
-
-      # - name: Build app
-      #   run: npm run build
+      #   run: npx sequelize-cli db:seed:all
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
